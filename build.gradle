@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.maiflai:gradle-scalatest:0.11"
+    }
+}
+
+apply plugin: 'scala'
+apply plugin: 'war'
+apply plugin: "com.github.maiflai.scalatest"
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+repositories {
+    jcenter()
+}
+
+gretty {
+    contextPath = '/'
+    scanInterval = 10
+    fastReload = true
+}
+
+jar {
+    baseName = 'scala-test'
+    version =  '0.0.1'
+    manifest {
+        attributes 'Main-Class': "com.gilsoft.app.Main"
+    }
+}
+
+dependencies{
+    compile 'org.slf4j:slf4j-api:1.7.5'
+    compile "org.scala-lang:scala-library:2.11.8"
+    compile "org.scala-lang:scala-compiler:2.11.8"
+    compile 'org.mortbay.jetty:servlet-api:2.5.20110712'
+    compile 'org.scalatra:scalatra_2.11:2.4.0'
+    testCompile 'org.scalatest:scalatest_2.11:2.2.6'
+}
